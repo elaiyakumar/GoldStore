@@ -186,6 +186,20 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GoldStore.Core\GoldStore.Core.csproj">
+      <Project>{8acfcf2b-0d4a-4765-b6af-682ecb843e18}</Project>
+      <Name>GoldStore.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GoldStore.Data\GoldStore.Data.csproj">
+      <Project>{7fb710c5-7b42-433f-ac72-30678195513a}</Project>
+      <Name>GoldStore.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GoldStore.Services\GoldStore.Services.csproj">
+      <Project>{d6ed9e3e-84e1-41fd-8aa0-f357d62f1b97}</Project>
+      <Name>GoldStore.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

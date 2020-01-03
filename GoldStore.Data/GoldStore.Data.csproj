@@ -52,7 +52,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="EfRepository.cs" />
+    <Compile Include="IDbContext.cs" />
+    <Compile Include="GoldStoreObjectContext.cs" />
+    <Compile Include="GoldStoreInitializer.cs" />
     <Compile Include="Mapping\Store\OrderMap.cs" />
     <Compile Include="Mapping\Store\ProductMap.cs" />
     <Compile Include="Mapping\GoldStoreEntityTypeConfiguration.cs" />
@@ -61,6 +64,12 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GoldStore.Core\GoldStore.Core.csproj">
+      <Project>{8acfcf2b-0d4a-4765-b6af-682ecb843e18}</Project>
+      <Name>GoldStore.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

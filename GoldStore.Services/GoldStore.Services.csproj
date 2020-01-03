@@ -42,8 +42,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Store\IOrderService.cs" />
+    <Compile Include="Store\OrderService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GoldStore.Core\GoldStore.Core.csproj">
+      <Project>{8acfcf2b-0d4a-4765-b6af-682ecb843e18}</Project>
+      <Name>GoldStore.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GoldStore.Data\GoldStore.Data.csproj">
+      <Project>{7fb710c5-7b42-433f-ac72-30678195513a}</Project>
+      <Name>GoldStore.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
