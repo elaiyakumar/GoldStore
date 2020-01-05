@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GoldStore.Core.Domain.Store;
+ 
 
 namespace GoldStore.Data.Mapping.Store
 {
-    class OrderMap
+    public class OrderMap : GoldStoreEntityTypeConfiguration<Order>
     {
+        public OrderMap()
+        {
+            this.ToTable("Order");
+            this.Property(a => a.OrderCode).HasMaxLength(50);
+        }
     }
 }

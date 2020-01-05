@@ -117,7 +117,7 @@ namespace GoldStore.Data
             try
             {
                 if (entity == null)
-                    throw new ArgumentNullException("entity");
+                    throw new ArgumentNullException("entity");                  
 
                 this._context.SaveChanges();
             }

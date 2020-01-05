@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 namespace GoldStore.Core.Infrastructure
 {
     /// <summary>
-    /// A class that finds types needed by ContosoUniversity by looping assemblies in the 
+    /// A class that finds types needed by GoldStore by looping assemblies in the 
     /// currently executing AppDomain. Only assemblies whose names matches
     /// certain patterns are investigated and an optional list of assemblies
     /// referenced by <see cref="AssemblyNames"/> are always investigated.
@@ -34,7 +34,7 @@ namespace GoldStore.Core.Infrastructure
             get { return AppDomain.CurrentDomain; }
         }
 
-        /// <summary>Gets or sets whether ContosoUniversity should iterate assemblies in the app domain when loading ContosoUniversity types. Loading patterns are applied when loading these assemblies.</summary>
+        /// <summary>Gets or sets whether GoldStore should iterate assemblies in the app domain when loading GoldStore types. Loading patterns are applied when loading these assemblies.</summary>
         public bool LoadAppDomainAssemblies
         {
             get { return loadAppDomainAssemblies; }
@@ -56,7 +56,7 @@ namespace GoldStore.Core.Infrastructure
         }
 
         /// <summary>Gets or sets the pattern for dll that will be investigated. For ease of use this defaults to match all but to increase performance you might want to configure a pattern that includes assemblies and your own.</summary>
-        /// <remarks>If you change this so that ContosoUniversity assemblies arn't investigated (e.g. by not including something like "^ContosoUniversity|..." you may break core functionality.</remarks>
+        /// <remarks>If you change this so that GoldStore assemblies arn't investigated (e.g. by not including something like "^GoldStore|..." you may break core functionality.</remarks>
         public string AssemblyRestrictToLoadingPattern
         {
             get { return assemblyRestrictToLoadingPattern; }
@@ -142,7 +142,7 @@ namespace GoldStore.Core.Infrastructure
         }
 
         /// <summary>Gets the assemblies related to the current implementation.</summary>
-        /// <returns>A list of assemblies that should be loaded by the ContosoUniversity factory.</returns>
+        /// <returns>A list of assemblies that should be loaded by the GoldStore factory.</returns>
         public virtual IList<Assembly> GetAssemblies()
         {
             var addedAssemblyNames = new List<string>();
@@ -204,7 +204,7 @@ namespace GoldStore.Core.Infrastructure
         /// The name of the assembly to check.
         /// </param>
         /// <returns>
-        /// True if the assembly should be loaded into ContosoUniversity.
+        /// True if the assembly should be loaded into GoldStore.
         /// </returns>
         public virtual bool Matches(string assemblyFullName)
         {

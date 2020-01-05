@@ -41,33 +41,18 @@ namespace GoldStore.Data
             var typesToRegister = Assembly.GetExecutingAssembly().GetTypes()
             .Where(type => !String.IsNullOrEmpty(type.Namespace))
             .Where(type => type.BaseType != null && type.BaseType.IsGenericType &&
-                type.BaseType.GetGenericTypeDefinition() == typeof(GoldStoreEntityTypeConfiguration<>));
-
-
-            var typesToRegister2 = Assembly.GetExecutingAssembly().GetTypes()
-            .Where(type => !String.IsNullOrEmpty(type.Namespace))
-            .Where(type => type.BaseType != null && type.BaseType.IsGenericType &&
-                type.BaseType.GetGenericTypeDefinition() == typeof(GoldStoreEntityTypeConfiguration<>));
-
-
-
+                type.BaseType.GetGenericTypeDefinition() == typeof(GoldStoreEntityTypeConfiguration<>)); 
+             
             foreach (var type in typesToRegister)
             {
                 dynamic configurationInstance = Activator.CreateInstance(type);
                 modelBuilder.Configurations.Add(configurationInstance);
-            }
-
-            foreach (var type in typesToRegister2)
-            {
-                dynamic configurationInstance = Activator.CreateInstance(type);
-                modelBuilder.Configurations.Add(configurationInstance);
-            }
+            } 
 
             //...or do it manually below. For example,
             //modelBuilder.Configurations.Add(new LanguageMap()); 
 
-            //modelBuilder.Entity<Department>().ToTable("Department");
-            //modelBuilder.Entity<Instructor>().ToTable("Instructor");
+            //modelBuilder.Entity<Department>().ToTable("Department"); 
 
             base.OnModelCreating(modelBuilder);
         }
@@ -257,11 +242,6 @@ namespace GoldStore.Data
                 this.Configuration.AutoDetectChangesEnabled = value;
             }
         }
-
-        //public System.Data.Entity.DbSet<GoldStore.Models.AnimalModel> AnimalModels { get; set; }
-
-        #endregion
-
-        //public System.Data.Entity.DbSet<GoldStore.Models.AnimalModel> AnimalModels { get; set; }
+        #endregion         
     }
 }

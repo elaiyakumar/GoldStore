@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GoldStore.Core.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +17,10 @@ namespace GoldStore
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+
+            //initialize engine context
+            EngineContext.Initialize(false);
         }
     }
 }

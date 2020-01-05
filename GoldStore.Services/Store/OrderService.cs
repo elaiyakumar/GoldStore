@@ -15,7 +15,7 @@ namespace GoldStore.Services.Store
             _orderRepository = orderRepository;
         }
 
-        public Order GetOrderById(int orderId)
+        public Order GetOrderById(int? orderId)
         {
             if (orderId == 0)
                 return null;

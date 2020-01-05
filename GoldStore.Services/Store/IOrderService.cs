@@ -17,33 +17,33 @@ namespace GoldStore.Services.Store
         /// <summary>
         /// Gets Order
         /// </summary>
-        /// <param name="OrderId">Order identifier</param>
+        /// <param name="orderId">Order identifier</param>
         /// <returns>Order</returns>
-        Order GetOrderById(int OrderId);
+        Order GetOrderById(int? orderId);
 
         /// <summary>
         /// Inserts an Order
         /// </summary>
         /// <param name="Order">Order</param>
-        void InsertOrder(Order Order);
+        void InsertOrder(Order order);
 
         /// <summary>
         /// Updates the Order
         /// </summary>
         /// <param name="Order">Order</param>
-        void UpdateOrder(Order Order);
+        void UpdateOrder(Order order);
 
         /// <summary>
         /// Delete a Order
         /// </summary>
         /// <param name="Order">Order</param>
-        void DeleteOrder(Order Order);
+        void DeleteOrder(Order order);
 
         /// <summary>
         /// Delete products
         /// </summary>
-        /// <param name="products">Orders</param>
-        void DeleteOrders(IList<Order> Orders);
+        /// <param name="Orders">Orders</param>
+        void DeleteOrders(IList<Order> orders);
 
         #endregion
     }
