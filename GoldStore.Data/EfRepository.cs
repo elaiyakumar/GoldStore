@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Linq.Expressions;
 using GoldStore.Core;
 using GoldStore.Core.Data;
 
@@ -54,6 +55,30 @@ namespace GoldStore.Data
         #region Methods
 
         /// <summary>
+        /// Get Entity With EagerLoad
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="children"></param>
+        /// <returns></returns>
+        public IEnumerable<T> GetEntityWithEagerLoad(Expression<Func<T, bool>> filter, string[] children)
+        {
+            try
+            {
+                IQueryable<T> query = this.Entities;
+                foreach (string entity in children)
+                {
+                    query = query.Include(entity);
+
+                }
+                return query.Where(filter).ToList();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
         /// Get entity by identifier
         /// </summary>
         /// <param name="id">Identifier</param>
@@ -63,7 +88,7 @@ namespace GoldStore.Data
             //see some suggested performance optimization (not tested)
             //http://stackoverflow.com/questions/11686225/dbset-find-method-ridiculously-slow-compared-to-singleordefault-on-id/11688189#comment34876113_11688189
             return this.Entities.Find(id);
-        }
+        } 
 
         /// <summary>
         /// Insert entity
@@ -76,7 +101,7 @@ namespace GoldStore.Data
                 if (entity == null)
                     throw new ArgumentNullException("entity");
 
-                this.Entities.Add(entity);
+                this.Entities.Add(entity); 
 
                 this._context.SaveChanges();
             }

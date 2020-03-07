@@ -9,10 +9,12 @@ namespace GoldStore.Services.Store
     public class OrderService : IOrderService
     {
         private readonly IRepository<Order> _orderRepository;
+        private readonly IRepository<OrderItem> _orderItemRepository;
 
-        public OrderService(IRepository<Order> orderRepository)
+        public OrderService(IRepository<Order> orderRepository, IRepository<OrderItem> orderItemRepository)
         {
             _orderRepository = orderRepository;
+            _orderItemRepository = orderItemRepository;
         }
 
         public Order GetOrderById(int? orderId)
@@ -20,6 +22,19 @@ namespace GoldStore.Services.Store
             if (orderId == 0)
                 return null;
             return _orderRepository.GetById(orderId);
+
+        }
+
+        public Order GetOrderByIdEagerLoad(int? orderId)
+        {
+            var children = new string[] { "OrderItems", "OrderItems.Product" };
+
+            var query = from d in _orderRepository.GetEntityWithEagerLoad(d => d.Id == orderId, children)
+                        orderby d.OrderCode
+                        select d;
+
+            var order = query.FirstOrDefault();
+            return order;
         }
 
         public IList<Order> GetAllOrders()
@@ -32,9 +47,16 @@ namespace GoldStore.Services.Store
             return orders;
         }
 
+      
+
         public void InsertOrder(Order order)
         {
             _orderRepository.Insert(order);
+        }
+
+        public void InsertOrderItem(OrderItem orderItem)
+        {
+            _orderItemRepository.Insert(orderItem);
         }
 
         public void UpdateOrder(Order order)

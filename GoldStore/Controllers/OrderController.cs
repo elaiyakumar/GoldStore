@@ -11,10 +11,12 @@ namespace GoldStore.Controllers
     public class OrderController : Controller
     {
         private readonly IOrderService _orderService;
-    
-        public OrderController(IOrderService orderService)
+        private readonly IProductService _productService;
+
+        public OrderController(IOrderService orderService, IProductService productService)
         {
             _orderService = orderService;
+            _productService = productService;
         }
 
         // GET: Orders
@@ -34,8 +36,13 @@ namespace GoldStore.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var order = _orderService.GetOrderById(id);
-            OrderModel orderModel = order.ToModel();
+            //var order = _orderService.GetOrderById(id);
+            //OrderModel orderModel = order.ToModel();
+
+            var orderEagerLoaded = _orderService.GetOrderByIdEagerLoad(id);
+            OrderModel orderModel = orderEagerLoaded.ToModel();
+
+            orderModel.OrderItems = orderEagerLoaded.OrderItems.Select(x => x.ToModel()).ToList();
 
             if (orderModel == null)
             {
@@ -55,7 +62,7 @@ namespace GoldStore.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,OrderCode,PoductId,Quantity,Cost,OrderDate")] OrderModel orderModel)
+        public ActionResult Create([Bind(Include = "Id,OrderCode,OrderStatusId,OrderTotal,OrderDate")] OrderModel orderModel)
         {   
             if (ModelState.IsValid)
             {
@@ -92,7 +99,7 @@ namespace GoldStore.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,OrderCode,PoductId,Quantity,Cost,OrderDate")] OrderModel orderModel)
+        public ActionResult Edit([Bind(Include = "Id,OrderCode,OrderStatusId,OrderTotal,OrderDate")] OrderModel orderModel)
         {
             if (ModelState.IsValid)
             {
@@ -132,6 +139,58 @@ namespace GoldStore.Controllers
             var order = _orderService.GetOrderById(id);           
             _orderService.DeleteOrder (order);
             return RedirectToAction("Index");
+        }
+
+        // GET: Orders/Create
+        public ActionResult CreateOrderItem(int? OrderId, string btnId, string formId)
+        {
+            var order = _orderService.GetOrderById(OrderId);
+            OrderModel orderModel = order.ToModel();
+
+            if (orderModel == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.OrderCode = order.OrderCode;
+            OrderItemModel orderItemModel = new OrderItemModel();
+            orderItemModel.OrderId = OrderId;
+                        
+            //orderItemModel.AvailableProducts.Add(new SelectListItem { Text = "-Please select a Product-", Value = "0" });
+            foreach (var product in _productService.GetAllProducts())
+                orderItemModel.AvailableProducts.Add(new SelectListItem { Text = product.Name, Value = product.Id.ToString() });
+             
+            return View(orderItemModel);
+          
+        }
+
+        // POST: Orders/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateOrderItem([Bind(Include = "Id,OrderId,ProductId,Quantity,Cost")] OrderItemModel orderItemModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var orderItem = orderItemModel.ToEntity();
+                
+                _orderService.InsertOrderItem(orderItem);
+
+                return RedirectToAction("Index");
+            }
+
+            return View(orderItemModel);
+        }
+
+        private void PopulateDepartmentsDropDownList(object selectedDepartment = null)
+        {
+             
+            var products = _productService.GetAllProducts();
+
+            //ViewBag.DepartmentID = new SelectList(db.Departments, "DepartmentID", "Name");
+            ViewBag.Department_ID = new SelectList(products, "Id", "Name", selectedDepartment);
+            ViewData["ProductSelectList"] = new SelectList(products, "Id", "Name", selectedDepartment);
+
         }
 
         protected override void Dispose(bool disposing)

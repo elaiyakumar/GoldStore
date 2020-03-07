@@ -20,12 +20,21 @@ namespace GoldStore.Services.Store
         /// <param name="orderId">Order identifier</param>
         /// <returns>Order</returns>
         Order GetOrderById(int? orderId);
+        Order GetOrderByIdEagerLoad(int? orderId);
+        //IList<Order> GetOrderByIdEagerLoad(int? orderId);
 
         /// <summary>
         /// Inserts an Order
         /// </summary>
         /// <param name="Order">Order</param>
         void InsertOrder(Order order);
+
+
+        /// <summary>
+        /// Inserts an Order
+        /// </summary>
+        /// <param name="Order">Order</param>
+        void InsertOrderItem(OrderItem orderItem);
 
         /// <summary>
         /// Updates the Order

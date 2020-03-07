@@ -242,6 +242,6 @@ namespace GoldStore.Data
                 this.Configuration.AutoDetectChangesEnabled = value;
             }
         }
-        #endregion         
+        #endregion        
     }
 }

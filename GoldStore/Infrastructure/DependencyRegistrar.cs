@@ -25,7 +25,8 @@ namespace GoldStore.Infrastructure
 
             builder.RegisterGeneric(typeof(EfRepository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
             
-            builder.RegisterType<OrderService>().As<IOrderService>().InstancePerLifetimeScope(); 
+            builder.RegisterType<OrderService>().As<IOrderService>().InstancePerLifetimeScope();
+            builder.RegisterType<ProductService>().As<IProductService>().InstancePerLifetimeScope();
 
             //https://www.entityframeworktutorial.net/code-first/configure-many-to-many-relationship-in-code-first.aspx
             //https://github.com/entityframeworktutorial/EF6-Code-First-Demo

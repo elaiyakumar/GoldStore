@@ -80,6 +80,7 @@
     <Compile Include="BaseEntity.cs" />
     <Compile Include="Configuration\GoldStoreConfig.cs" />
     <Compile Include="Data\IRepository.cs" />
+    <Compile Include="Domain\Store\OrderItem.cs" />
     <Compile Include="Domain\Store\Order.cs" />
     <Compile Include="Domain\Store\Product.cs" />
     <Compile Include="GoldStoreException.cs" />

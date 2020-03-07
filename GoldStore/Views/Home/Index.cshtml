@@ -2,15 +2,37 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h4>GoldStore is ASP.NET MVC web application. Following Clean Architecture practices. </h4>
-    <ul>                 
-        <li>GoldStore uses the Entity Framework (EF) Code-First approach.</li>
-        <li>GoldStore use Fluent API to fully customize the persistence mapping.</li>
-        <li>Autofac - For Dependency Injection</li>
-        <li>Automapper - For for mapping objects</li>
-        <li>Showcase CRUD operation.</li>
-    </ul>  
+<div class="well well-sm">
+
+    <h4>
+        GoldStore is ASP.NET MVC web application. 
+        Following <span class="badge">Clean Architecture practices</span>.
+        Showcase <span class="label label-info"> CRUD  </span>operation.
+    </h4>
+    <ul>
+        <li>GoldStore uses the <span class="label label-info">Entity Framework (EF) Code-First</span> approach.</li>
+        <li>GoldStore uses <span class="label label-info">Fluent API </span> to fully customize the persistence mapping.</li>
+        <li><span class="label label-info">Autofac</span> - For Dependency Injection</li>
+        <li><span class="label label-info">Automapper</span> - For mapping objects</li>
+        <li>..</li>
+    </ul> 
+</div>
+
+<div class="alert alert-info">
+    <p>
+        Note :
+        <ul>
+            <li><small>AutoMapper (8.0.0) is working version. AutoMapper (9.0.0) throws exception.</small></li>
+            <li><small>System.ValueTuple (4.5.0) is required.</small></li>
+            <li>
+                <small>
+                    https://www.youtube.com/watch?v=WTVcLFTgDqs <br />
+                    https://www.youtube.com/watch?v=ok3kajIFHow<br />
+                    https://www.youtube.com/watch?v=LlHjY8s6tZQ
+                </small>
+            </li>
+        </ul>
+    </p>
 </div>
 
 <div class="row">
@@ -19,5 +41,5 @@
         <p><a target="_blank" class="btn btn-default" href="http://www.nopcommerce.com">nopCommerce &raquo;</a></p>
         <p><a target="_blank" class="btn btn-default" href="https://chsakell.com/2015/02/15/asp-net-mvc-solution-architecture-best-practices/">chsakell MVC Solution Architecture– Best Practices&raquo;</a></p>
     </div>
-    
+
 </div>

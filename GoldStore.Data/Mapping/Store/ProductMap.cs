@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GoldStore.Core.Domain.Store;
 
 namespace GoldStore.Data.Mapping.Store
 {
-    class ProductMap
+    public class ProductMap : GoldStoreEntityTypeConfiguration<Product>
     {
+        public ProductMap()
+        {
+            this.ToTable("Product");
+            this.HasKey(p => p.Id);
+        }    
     }
 }

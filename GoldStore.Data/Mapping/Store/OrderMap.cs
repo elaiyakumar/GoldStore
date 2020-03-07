@@ -8,6 +8,7 @@ namespace GoldStore.Data.Mapping.Store
         public OrderMap()
         {
             this.ToTable("Order");
+            this.HasKey(p => p.Id);
             this.Property(a => a.OrderCode).HasMaxLength(50);
         }
     }

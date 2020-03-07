@@ -1,13 +1,30 @@
 ﻿@model GoldStore.Models.OrderModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Order Details";
 }
 
-<h2>Order Details</h2>
 
-<div>     
+<script type="text/javascript"> 
+    $(document).ready(function () {
+        
+    });
+    function OpenWindow(query, w, h, scroll) {
+        var l = (screen.width - w) / 2;
+        var t = (screen.height - h) / 2;
+
+        winprops = 'resizable=0, height=' + h + ',width=' + w + ',top=' + t + ',left=' + l + 'w';
+        if (scroll) winprops += ',scrollbars=1';
+        var f = window.open(query, "_blank", winprops);
+    }
+</script>
+
+<h3>Order Details</h3>
+
+<div>
+     
     <hr />
+
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.OrderCode)
@@ -18,27 +35,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PoductId)
+            @Html.DisplayNameFor(model => model.OrderStatusId)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PoductId)
+            @Html.DisplayFor(model => model.OrderStatusId)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Quantity)
+            @Html.DisplayNameFor(model => model.OrderTotal)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Cost)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Cost)
+            @Html.DisplayFor(model => model.OrderTotal)
         </dd>
 
         <dt>
@@ -50,6 +59,79 @@
         </dd>
 
     </dl>
+
+    <hr />
+    <div class="pull-right">
+        <button type="submit" id="btnAddOrderItem"
+                onclick="javascript:OpenWindow('@(Url.Action("CreateOrderItem", "Order", new { OrderId = Model.Id, btnId = "btnAddOrderItemRefresh", formId = "Order-form"}))', 800, 600, true); return false;"
+                class="btn btn-primary" style=" margin-bottom=5px;">
+            Add Order Item
+        </button>
+
+    </div>
+    
+    <table class="table">
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Items.Id)*@
+                Id
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Items.OrderId)*@
+                OrderId
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Items.ProductId)*@
+                ProductId
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Items.OrderDate)*@
+                ProductName
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Items.OrderDate)*@
+                Quantity
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Items.OrderDate)*@
+                Cost
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.OrderItems)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+        }
+
+    </table>
+
+
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

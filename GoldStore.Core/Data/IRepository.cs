@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GoldStore.Core.Data
 {
@@ -8,6 +10,10 @@ namespace GoldStore.Core.Data
     /// </summary>
     public partial interface IRepository<T> where T : BaseEntity
     {
+
+
+        IEnumerable<T> GetEntityWithEagerLoad(Expression<Func<T, bool>> filter, string[] children);
+
         /// <summary>
         /// Get entity by identifier
         /// </summary>

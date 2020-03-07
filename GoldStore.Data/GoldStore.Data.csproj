@@ -56,6 +56,7 @@
     <Compile Include="IDbContext.cs" />
     <Compile Include="GoldStoreObjectContext.cs" />
     <Compile Include="GoldStoreInitializer.cs" />
+    <Compile Include="Mapping\Store\OrderItemMap.cs" />
     <Compile Include="Mapping\Store\OrderMap.cs" />
     <Compile Include="Mapping\Store\ProductMap.cs" />
     <Compile Include="Mapping\GoldStoreEntityTypeConfiguration.cs" />
