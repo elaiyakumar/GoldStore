@@ -40,6 +40,11 @@ namespace GoldStore.Controllers
             //OrderModel orderModel = order.ToModel();
 
             var orderEagerLoaded = _orderService.GetOrderByIdEagerLoad(id);
+            if (orderEagerLoaded == null)
+            {
+                return HttpNotFound();
+            }
+
             OrderModel orderModel = orderEagerLoaded.ToModel();
 
             orderModel.OrderItems = orderEagerLoaded.OrderItems.Select(x => x.ToModel()).ToList();
@@ -154,7 +159,7 @@ namespace GoldStore.Controllers
             ViewBag.OrderCode = order.OrderCode;
             OrderItemModel orderItemModel = new OrderItemModel();
             orderItemModel.OrderId = OrderId;
-                        
+
             //orderItemModel.AvailableProducts.Add(new SelectListItem { Text = "-Please select a Product-", Value = "0" });
             foreach (var product in _productService.GetAllProducts())
                 orderItemModel.AvailableProducts.Add(new SelectListItem { Text = product.Name, Value = product.Id.ToString() });
@@ -168,17 +173,20 @@ namespace GoldStore.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateOrderItem([Bind(Include = "Id,OrderId,ProductId,Quantity,Cost")] OrderItemModel orderItemModel)
-        {
+        public ActionResult CreateOrderItem(string btnId, string formId, [Bind(Include = "Id,OrderId,ProductId,Quantity,Cost")] OrderItemModel orderItemModel)
+        { 
             if (ModelState.IsValid)
             {
-                var orderItem = orderItemModel.ToEntity();
+                var orderItem  = orderItemModel.ToEntity();
                 
                 _orderService.InsertOrderItem(orderItem);
-
-                return RedirectToAction("Index");
+                
+                ViewBag.RefreshPage = true; 
+                ViewBag.btnId = btnId;
+                ViewBag.formId = formId;
+                return View(orderItemModel);
+                //return RedirectToAction("Index");
             }
-
             return View(orderItemModel);
         }
 

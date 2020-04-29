@@ -22,7 +22,7 @@
 <h3>Order Details</h3>
 
 <div>
-     
+
     <hr />
 
     <dl class="dl-horizontal">
@@ -60,16 +60,33 @@
 
     </dl>
 
-    <hr />
-    <div class="pull-right">
-        <button type="submit" id="btnAddOrderItem"
-                onclick="javascript:OpenWindow('@(Url.Action("CreateOrderItem", "Order", new { OrderId = Model.Id, btnId = "btnAddOrderItemRefresh", formId = "Order-form"}))', 800, 600, true); return false;"
-                class="btn btn-primary" style=" margin-bottom=5px;">
-            Add Order Item
-        </button>
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "Order-form" }))
+    {
 
-    </div>
-    
+        <div>
+            <button id="btnAddOrderItemRefresh" type="button" class="btn btn-primary" style="display:none;"> <i class="fa fa-clone"></i> Refresh </button>
+
+            <button type="submit" id="btnAddOrderItem"
+                    onclick="javascript:OpenWindow('@(Url.Action("CreateOrderItem", "Order", new { OrderId = Model.Id, btnId = "btnAddOrderItemRefresh", formId = "Order-form"}))', 800, 600, true); return false;"
+                    class="btn btn-primary" style=" margin-bottom:5px;">
+                Add Order Item
+            </button>
+
+            <script type="text/javascript">
+            $(document).ready(function () {
+                $('#btnAddOrderItemRefresh').click(function () {
+                    location.href = "/Order/Details/@(Model.Id)";
+                    //$("#tierprices-grid").data('kendoGrid').dataSource.read();
+                    //return false to don't reload a page
+                    return false;
+                });
+            });
+            </script>
+
+        </div>
+    }
+
+
     <table class="table">
         <tr>
             <th>
@@ -85,8 +102,7 @@
                 ProductId
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.Items.OrderDate)*@
-                ProductName
+                @Html.DisplayNameFor(model => model.OrderItems[0].ProductName)                
             </th>
             <th>
                 @*@Html.DisplayNameFor(model => model.Items.OrderDate)*@
@@ -101,31 +117,31 @@
 
         @foreach (var item in Model.OrderItems)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cost)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
         }
 
     </table>

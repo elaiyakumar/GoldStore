@@ -10,7 +10,7 @@ namespace GoldStore.Models
         {
             AvailableProducts = new List<SelectListItem>(); 
         }
-
+        
         public int Id { get; set; }
 
         public int? OrderId { get; set; }
@@ -26,6 +26,8 @@ namespace GoldStore.Models
 
  
         public IList<SelectListItem> AvailableProducts { get; set; }
+
+        [Display(Name = "Product Name")]
         public string ProductName { get; set; }
     }
 }
