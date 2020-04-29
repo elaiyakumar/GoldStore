@@ -11,6 +11,8 @@ namespace GoldStore
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+         
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -21,6 +23,14 @@ namespace GoldStore
 
             //initialize engine context
             EngineContext.Initialize(false);
+        }
+
+        protected void Application_Eror(object sender, EventArgs e)
+        {
+            Exception Ex = Server.GetLastError();
+            //Log error
+            HttpException httpExp  = Ex as HttpException;             
+
         }
     }
 }
