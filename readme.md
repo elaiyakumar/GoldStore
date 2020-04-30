@@ -1,7 +1,7 @@
 # GoldStore 
-### An ASP.NET MVC web application.  `ASP.NET 4.5` + `MVC 5`, `Entity Framework 6`.
-### Following `Clean Architecture` practices.
-### Showcase `CRUD` operations.   
+An ASP.NET MVC web application.  `ASP.NET 4.5` + `MVC 5`, `Entity Framework 6`.
+Following `Clean Architecture` practices.
+Showcase `CRUD` operations.   
 
 # Highlights
 * `Entity Framework (EF6)` Code-First approach.
