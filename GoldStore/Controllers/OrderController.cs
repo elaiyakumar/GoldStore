@@ -39,11 +39,7 @@ namespace GoldStore.Controllers
             //var order = _orderService.GetOrderById(id);
             //OrderModel orderModel = order.ToModel();
 
-            var orderEagerLoaded = _orderService.GetOrderByIdEagerLoad(id);
-            if (orderEagerLoaded == null)
-            {
-                return HttpNotFound();
-            }
+            var orderEagerLoaded = _orderService.GetOrderByIdEagerLoad(id);           
 
             OrderModel orderModel = orderEagerLoaded.ToModel();
 

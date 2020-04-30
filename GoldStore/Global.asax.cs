@@ -25,12 +25,12 @@ namespace GoldStore
             EngineContext.Initialize(false);
         }
 
-        protected void Application_Eror(object sender, EventArgs e)
-        {
-            Exception Ex = Server.GetLastError();
-            //Log error
-            HttpException httpExp  = Ex as HttpException;             
+        //protected void Application_Eror(object sender, EventArgs e)
+        //{
+        //    Exception Ex = Server.GetLastError();
+        //    //Log error
+        //    HttpException httpExp  = Ex as HttpException;             
 
-        }
+        //}
     }
 }
