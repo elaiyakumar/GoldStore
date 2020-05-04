@@ -46,18 +46,12 @@ namespace GoldStore.Services.Store
             var orders = query.ToList();
             return orders;
         }
-
-      
+              
 
         public void InsertOrder(Order order)
         {
             _orderRepository.Insert(order);
-        }
-
-        public void InsertOrderItem(OrderItem orderItem)
-        {
-            _orderItemRepository.Insert(orderItem);
-        }
+        } 
 
         public void UpdateOrder(Order order)
         {
@@ -75,6 +69,23 @@ namespace GoldStore.Services.Store
             //_OrderRepository.Update(Order);
         }
 
+        public OrderItem GetOrderItemById(int? orderItemId)
+        {
+            if (orderItemId == 0)
+                return null;
+            return _orderItemRepository.GetById(orderItemId);
+
+        }
+
+        public void InsertOrderItem(OrderItem orderItem)
+        {
+            _orderItemRepository.Insert(orderItem);
+        }
+
+        public void DeleteOrderItem(OrderItem orderItem)
+        {
+            _orderItemRepository.Delete(orderItem);
+        }  
 
     }
 }

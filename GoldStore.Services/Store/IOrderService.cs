@@ -29,12 +29,24 @@ namespace GoldStore.Services.Store
         /// <param name="Order">Order</param>
         void InsertOrder(Order order);
 
+        /// <summary>
+        /// Gets OrderItem
+        /// </summary>
+        /// <param name="OrderItemId">Order identifier</param>
+        /// <returns>Order</returns>
+        OrderItem GetOrderItemById(int? OrderItemId);
 
         /// <summary>
-        /// Inserts an Order
+        /// Inserts an OrderItem
         /// </summary>
-        /// <param name="Order">Order</param>
+        /// <param name="OrderItem">OrderItem</param>
         void InsertOrderItem(OrderItem orderItem);
+
+        /// <summary>
+        /// Delete OrderItem
+        /// </summary>
+        /// <param name="OrderItem">OrderItem</param>
+        void DeleteOrderItem(OrderItem orderItem);
 
         /// <summary>
         /// Updates the Order
@@ -52,7 +64,7 @@ namespace GoldStore.Services.Store
         /// Delete products
         /// </summary>
         /// <param name="Orders">Orders</param>
-        void DeleteOrders(IList<Order> orders);
+        void DeleteOrders(IList<Order> orders);       
 
         #endregion
     }

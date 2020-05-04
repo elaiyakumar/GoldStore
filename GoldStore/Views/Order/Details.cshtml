@@ -5,10 +5,34 @@
 }
 
 
-<script type="text/javascript"> 
+<script type="text/javascript">
+    var myArray = []; 
+    var orderItemId = 0;
+
+    @foreach (var d in Model.OrderItems)
+    {         
+        @:myArray.push({ProductName : "@d.ProductName", Quantity: "@d.Quantity", Id : "@d.Id"  , Cost : "@d.Cost"});
+    }  
+
     $(document).ready(function () {
-        
-    });
+        initEvents();
+    }); 
+
+    function initEvents() {
+
+        $('#btnAddOrderItemRefresh').click(function () {
+            location.href = "/Order/Details/@(Model.Id)";
+            //$("#tierprices-grid").data('kendoGrid').dataSource.read();
+            //return false to don't reload a page
+            return false;
+        });
+
+        $('#btnDeleteOrderItemConfirm').click(function () {
+            deleteOrderItem(orderItemId)
+            return false;
+        }); 
+    }
+
     function OpenWindow(query, w, h, scroll) {
         var l = (screen.width - w) / 2;
         var t = (screen.height - h) / 2;
@@ -16,7 +40,40 @@
         winprops = 'resizable=0, height=' + h + ',width=' + w + ',top=' + t + ',left=' + l + 'w';
         if (scroll) winprops += ',scrollbars=1';
         var f = window.open(query, "_blank", winprops);
+    };  
+
+    function deleteOrderItemModal(Id) {  
+        orderItemId = parseInt(Id);
+        var obj = myArray.find(x => parseInt(x.Id) === parseInt(Id));
+
+        $("#txtProductName").val(obj.ProductName);
+        $("#txtQuantity").val(obj.Quantity);
+        $("#txtCost").val(obj.Cost);
+
+        $("#divDeleteOrderItemModal").modal("show");
+    };
+
+    function deleteOrderItem(Id) {          
+
+        if (Id > 0)
+        {  
+            $.ajax({
+
+                url: "/Order/DeleteOrderItem/" + Id,
+                type: "POST",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+                    orderItemId = 0;
+                    location.href = "/Order/Details/@(Model.Id)";                     
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            }); 
+        }
     }
+    
 </script>
 
 <h3>Order Details</h3>
@@ -70,46 +127,30 @@
                     onclick="javascript:OpenWindow('@(Url.Action("CreateOrderItem", "Order", new { OrderId = Model.Id, btnId = "btnAddOrderItemRefresh", formId = "Order-form"}))', 800, 600, true); return false;"
                     class="btn btn-primary" style=" margin-bottom:5px;">
                 Add Order Item
-            </button>
-
-            <script type="text/javascript">
-            $(document).ready(function () {
-                $('#btnAddOrderItemRefresh').click(function () {
-                    location.href = "/Order/Details/@(Model.Id)";
-                    //$("#tierprices-grid").data('kendoGrid').dataSource.read();
-                    //return false to don't reload a page
-                    return false;
-                });
-            });
-            </script>
-
+            </button> 
+            
         </div>
     }
 
 
     <table class="table">
         <tr>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Items.Id)*@
+            <th>               
                 Id
             </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Items.OrderId)*@
+            <th>                
                 OrderId
             </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Items.ProductId)*@
+            <th>                
                 ProductId
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OrderItems[0].ProductName)                
+                @Html.DisplayNameFor(model => model.OrderItems[0].ProductName)
             </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Items.OrderDate)*@
+            <th>               
                 Quantity
             </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Items.OrderDate)*@
+            <th>                
                 Cost
             </th>
             <th></th>
@@ -137,19 +178,58 @@
                     @Html.DisplayFor(modelItem => item.Cost)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Edit", "EditOrderItem", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "DetailsOrderItem", new { id = item.Id }) |                     
+                    <a href="#" id="btnDeleteOrderItem" name="btnDeleteOrderItem" 
+                            onclick="javascript:deleteOrderItemModal(@item.Id); return false;">
+                        <i class="fa fa-clone"></i> Delete  
+                    </a> 
                 </td>
             </tr>
         }
 
     </table>
-
-
-
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+<div id="divDeleteOrderItemModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="divDeleteOrderItemModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="divDeleteOrderItemModalitle">Delete Order Item </h4>
+            </div> 
+            <div class="form-horizontal"> 
+                <div class="modal-body">
+
+                    <div style="padding-left: 10px;">                      
+                        <div class="form-group">
+                            <label for="txtProductName">Product Name</label>
+                            <input id="txtProductName" type="text" class="form-control" placeholder="Name" readonly />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="txtQuantity">Quantity</label>
+                            <input id="txtQuantity" type="text" class="form-control" placeholder="Quantity" readonly />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="txtCost">Cost</label>
+                            <input id="txtCost" type="text" class="form-control" placeholder="Cost" readonly />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">                   
+                    <button id ="btnDeleteOrderItemConfirm" class="btn btn-primary"> Delete Order Item </button>                    
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>          
+        </div>
+    </div>
+</div>
+
+ 

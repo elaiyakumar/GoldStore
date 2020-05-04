@@ -34,20 +34,22 @@ namespace GoldStore.Controllers
         { 
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            //var order = _orderService.GetOrderById(id);
-            //OrderModel orderModel = order.ToModel();
+                return RedirectToAction("Index");
+            }        
+            var orderEagerLoaded = _orderService.GetOrderByIdEagerLoad(id);
 
-            var orderEagerLoaded = _orderService.GetOrderByIdEagerLoad(id);           
+            if (orderEagerLoaded == null)
+            {
+                return RedirectToAction("Index");
+            }
 
             OrderModel orderModel = orderEagerLoaded.ToModel();
 
             orderModel.OrderItems = orderEagerLoaded.OrderItems.Select(x => x.ToModel()).ToList();
-
+            
             if (orderModel == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index");
             }
             return View(orderModel);
         }
@@ -82,7 +84,7 @@ namespace GoldStore.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
 
             var order = _orderService.GetOrderById(id);
@@ -140,8 +142,8 @@ namespace GoldStore.Controllers
             var order = _orderService.GetOrderById(id);           
             _orderService.DeleteOrder (order);
             return RedirectToAction("Index");
-        }
-
+        } 
+        
         // GET: Orders/Create
         public ActionResult CreateOrderItem(int? OrderId, string btnId, string formId)
         {
@@ -184,6 +186,17 @@ namespace GoldStore.Controllers
                 //return RedirectToAction("Index");
             }
             return View(orderItemModel);
+        }
+
+        // POST: Orders/Delete/5
+        [HttpPost, ActionName("DeleteOrderItem")]        
+        public JsonResult DeleteOrderItemConfirmed(int id)
+        {
+            var orderItem = _orderService.GetOrderItemById(id);
+            //orderItem = orderItem.ToEntity(orderItem);
+            _orderService.DeleteOrderItem(orderItem);
+
+            return Json(JsonRequestBehavior.AllowGet);
         }
 
         private void PopulateDepartmentsDropDownList(object selectedDepartment = null)
